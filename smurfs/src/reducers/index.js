@@ -1,6 +1,14 @@
 import * as act from "../actions";
- 
 
+
+const initialState = {
+  smurfs: [],
+  fetchingSmurfs: false,
+  addingSmurf: false,
+  updatingSmurf: false,
+  deletingSmurf: false,
+  error: null
+};
 
  	const smurfReducer = (state = initialState, action) => {
   switch (action.type) {
