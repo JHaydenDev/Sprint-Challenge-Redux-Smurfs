@@ -34,16 +34,13 @@ export default class SmurfForm extends Component {
     updating && console.log(smurf);
     return (
       <div className="form-card">
-        <h2>{updating ? `Edit ${smurf.name}` : "Add Smurf"}</h2>
         <form onSubmit={this.submit}>
-          Name:
           <input
             name="name"
             value={this.state.name}
             onChange={this.handleChange}
             placeholder="name"
           />
-          Age:
           <input
             name="age"
             type="number"
@@ -51,7 +48,6 @@ export default class SmurfForm extends Component {
             onChange={this.handleChange}
             placeholder="age"
           />
-          Height:
           <input
             name="height"
             value={this.state.height}

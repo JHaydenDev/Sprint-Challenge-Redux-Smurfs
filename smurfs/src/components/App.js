@@ -37,32 +37,15 @@ class App extends Component {
                   <h2>{smurf.name}</h2>
                   <p>{smurf.age}</p>
                   <p>{smurf.height}</p>
-                  <button id={smurf.id} onClick={this.toggleForm}>
-                    Update {smurf.name}
-                  </button>
                 </div>
               );
             })}
           </div>
           <div className="form-container">
             <SmurfForm add={addSmurf} />
-            {this.state.update && (
-              <SmurfForm
-                update={this.props.updateSmurf}
-                toggle={this.toggleForm}
-                id={this.state.id}
-                smurfs={smurfs}
-                updating
-              />
-            )}
           </div>
         </div>
 
-        {/* <SmurfForm add={addSmurf} toggle={this.toggleForm} /> */}
-
-        {/* <button onClick={this.toggleForm}>
-          {this.state.hidden ? "Add Smurf" : "Hide Form"}
-        </button> */}
       </div>
     );
   }
@@ -73,12 +56,11 @@ const mapStateToProps = state => {
     smurfs: state.smurfs,
     fetchingSmurfs: state.fetchingSmurfs,
     addingSmurf: state.addingSmurf,
-    updatingSmurf: state.updatingSmurf,
     error: state.error
   };
 };
 
 export default connect(
   mapStateToProps,
-  { addSmurf, getSmurfs, updateSmurf }
+  { addSmurf, getSmurfs, }
 )(App);
