@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import { connect } from "react-redux";
-import { addSmurf, getSmurfs, } from "../actions";
+import { addSmurf, getSmurfs, updateSmurf } from "../actions";
 import SmurfForm from "./SmurfForm";
 
 class App extends Component {
@@ -14,8 +14,17 @@ class App extends Component {
     this.props.getSmurfs();
   }
 
+  toggleForm = e => {
+    const id = e.target.id;
+    this.state.update
+      ? this.setState({ update: false, id: "" })
+      : this.setState({ update: true, id: id });
+    // this.setState({ update: !this.state.hidden, id: id });
+  };
 
+  
   render() {
+    console.log(this.state.id);
     const { smurfs, addSmurf } = this.props;
     return (
       <div className="App">
@@ -28,14 +37,32 @@ class App extends Component {
                   <h2>{smurf.name}</h2>
                   <p>{smurf.age}</p>
                   <p>{smurf.height}</p>
+                  <button id={smurf.id} onClick={this.toggleForm}>
+                    Update {smurf.name}
+                  </button>
                 </div>
               );
             })}
           </div>
           <div className="form-container">
             <SmurfForm add={addSmurf} />
+            {this.state.update && (
+              <SmurfForm
+                update={this.props.updateSmurf}
+                toggle={this.toggleForm}
+                id={this.state.id}
+                smurfs={smurfs}
+                updating
+              />
+            )}
           </div>
         </div>
+
+        {/* <SmurfForm add={addSmurf} toggle={this.toggleForm} /> */}
+
+        {/* <button onClick={this.toggleForm}>
+          {this.state.hidden ? "Add Smurf" : "Hide Form"}
+        </button> */}
       </div>
     );
   }
@@ -53,5 +80,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { addSmurf, getSmurfs }
+  { addSmurf, getSmurfs, updateSmurf }
 )(App);

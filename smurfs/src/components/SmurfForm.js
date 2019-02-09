@@ -1,60 +1,69 @@
-import React from "react";
+import React, { Component } from "react";
 
-class SmurfForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      age: 0,
-      name: "",
-      height: ""
-    };
-  }
-  addHandler = event => {
-    event.preventDefault();
-    if (
-      this.state.name !== "" &&
-      this.state.height !== "" &&
-      this.state.age !== 0
-    ) {
-      this.props.addSmurf(this.state);
-      this.setState({
-        name: "",
-        age: 0,
-        height: ""
-      });
-    }
+let smurf;
+
+export default class SmurfForm extends Component {
+  state = {
+    name: "",
+    age: "",
+    height: ""
   };
-  handleInputChange = e => {
+
+  handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
+
+  submit = e => {
+    e.preventDefault();
+    if (this.props.updating) {
+      this.props.update(this.state, this.props.id);
+    } else {
+      this.props.add(this.state);
+    }
+    this.setState({ name: "", age: "", height: "" });
+  };
   render() {
+    const { updating } = this.props;
+    if (this.props.updating) {
+      console.log(this.props.smurfs);
+      smurf = this.props.smurfs
+        .filter(smurf => smurf.id === parseInt(this.props.id, 10))
+        .pop();
+      console.log(smurf);
+    }
+    updating && console.log(smurf);
     return (
-      <div className="SmurfForm">
-        <form onSubmit={this.addHanddler}>
+      <div className="form-card">
+        <h2>{updating ? `Edit ${smurf.name}` : "Add Smurf"}</h2>
+        <form onSubmit={this.submit}>
+          Name:
           <input
-            onChange={this.handleInputChange}
-            placeholder="name"
-            value={this.state.name}
             name="name"
+            value={this.state.name}
+            onChange={this.handleChange}
+            placeholder="name"
           />
+          Age:
           <input
-            type="number"
-            onChange={this.handleInputChange}
-            placeholder="age"
-            value={this.state.age}
             name="age"
+            type="number"
+            value={this.state.age}
+            onChange={this.handleChange}
+            placeholder="age"
           />
+          Height:
           <input
-            onChange={this.handleInputChange}
-            placeholder="height"
-            value={this.state.height}
             name="height"
+            value={this.state.height}
+            onChange={this.handleChange}
+            placeholder="height"
           />
-          <button type="submit">Add Smurf</button>
+          <div className="button-container">
+            <button type="submit">Add Smurf</button>
+            {updating && <button onClick={this.hide}>Hide Form</button>}
+          </div>
         </form>
       </div>
     );
   }
 }
-
-export default SmurfForm;
