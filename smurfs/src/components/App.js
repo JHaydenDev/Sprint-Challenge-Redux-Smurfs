@@ -1,40 +1,53 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
 import { connect } from "react-redux";
-import { addSmurf, getSmurfs } from "../actions";
-
+import { addSmurf, getSmurfs, } from "../actions";
+import SmurfForm from "./SmurfForm";
 
 class App extends Component {
+  state = {
+    update: false,
+    id: ""
+  };
+
   componentDidMount() {
     this.props.getSmurfs();
   }
+
+
   render() {
-    console.log(this.props);
-    const { smurfs } = this.props;
+    const { smurfs, addSmurf } = this.props;
     return (
       <div className="App">
         <h1>SMURFS! 2.0 W/ Redux</h1>
-        <div>Welcome to your Redux version of Smurfs!</div>
-        <div>Start inside of your `src/index.js` file!</div>
-        <div>Have fun!</div>
-        {smurfs.map(smurf => {
-          return (
-            <div className="smurf-card">
-              <h2>{smurf.name}</h2>
-              <p>{smurf.age}</p>
-              <p>{smurf.height}</p>
-            </div>
-          );
-        })}
+        <div className="content-container">
+          <div className="smurf-list">
+            {smurfs.map((smurf, index) => {
+              return (
+                <div className="smurf-card" key={index}>
+                  <h2>{smurf.name}</h2>
+                  <p>{smurf.age}</p>
+                  <p>{smurf.height}</p>
+                </div>
+              );
+            })}
+          </div>
+          <div className="form-container">
+            <SmurfForm add={addSmurf} />
+          </div>
+        </div>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
-    smurfs: state.smurfs
+    smurfs: state.smurfs,
+    fetchingSmurfs: state.fetchingSmurfs,
+    addingSmurf: state.addingSmurf,
+    updatingSmurf: state.updatingSmurf,
+    error: state.error
   };
 };
 
