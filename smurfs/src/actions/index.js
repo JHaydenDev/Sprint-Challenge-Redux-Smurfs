@@ -1,4 +1,6 @@
 import axios from "axios";
+
+export const ADDED = "ADDED";
 export const ADDING = "ADDING";
 export const FETCHING = "FETCHING";
 export const FETCHED = "FETCHED";
@@ -8,9 +10,9 @@ export const DELETED = "DELETE";
 export const DELETING = "DELETING";
 export const ERROR = "ERROR";
 
- const host = `http://localhost:3333`;
+const host = `http://localhost:3333`;
 
- export const getSmurfs = () => dispatch => {
+export const getSmurfs = () => dispatch => {
   const smurfs = axios.get(`${host}/smurfs`);
   dispatch({ type: FETCHING });
   smurfs
@@ -21,7 +23,7 @@ export const ERROR = "ERROR";
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 
- export const addSmurf = smurf => dispatch => {
+export const addSmurf = smurf => dispatch => {
   const newGuy = axios.post(`${host}/smurfs`, smurf);
   dispatch({ type: ADDING });
   newGuy
@@ -31,4 +33,3 @@ export const ERROR = "ERROR";
     })
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
-
